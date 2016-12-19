@@ -1,0 +1,33 @@
+#  Global library
+global:
+  version: 1.x
+  css:
+    theme:
+      build/css/main.css: { weight: -1 }
+
+  js:
+    build/js/main.js: { scope: footer, weight: -6 }
+  dependencies:
+    - core/jquery
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
+    - core/modernizr
+
+#Vendor Library
+vendor:
+  version: 1.x
+  css:
+    theme:
+      build/css/vendor/foundation.min.css { weight: -1 }
+
+  js:
+    build:/js/vendor/foundation.min.js: { scope: footer, weight: -7 }
+
+# Front Page Library
+front-page:
+  version: 1.x
+  css:
+    theme:
+  js:
