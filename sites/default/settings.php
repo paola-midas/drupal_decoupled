@@ -285,7 +285,7 @@ $config_directories = array();
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-$settings['hash_salt'] = '';
+$settings['hash_salt'] = 'ig3qdDt-ccGbP13N-bkNewCcIFo3pQTZitCAoqiXtTGmo4lMmA_Q7xV9RBcv_GhbEGFn6SMo0w';
 
 /**
  * Deployment identifier.
@@ -723,7 +723,10 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  * will allow the site to run off of all variants of example.com and
  * example.org, with all subdomains included.
  */
-
+ $settings['trusted_host_patterns'] = array(
+   '^www\.netmidas\.local$',
+   '^netmidas\.local$',
+   );
 /**
  * The default list of directories that will be ignored by Drupal's file API.
  *
@@ -753,3 +756,15 @@ $settings['file_scan_ignore_directories'] = [
 # if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
+$databases['default']['default'] = array (
+  'database' => 'netmidas',
+  'username' => 'nmuser',
+  'password' => 'passwd_1',
+  'prefix' => '',
+  'host' => 'localhost',
+  'port' => '3306',
+  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+  'driver' => 'mysql',
+);
+$settings['install_profile'] = 'standard';
+$config_directories['sync'] = 'sites/default/files/config_hgSOI4GEdmrU3RzJzQfiB6VWklk-Aisos7HetGEFwno5xW5FDo263eAAO3DxK0lKzQ3oKhs0Rg/sync';
