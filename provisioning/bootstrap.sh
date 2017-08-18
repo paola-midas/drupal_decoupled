@@ -61,5 +61,13 @@ drush status
 install_message "install drupal from composer"
 cd /var/www/html/netmidas
 sudo composer create-project drupal-composer/drupal-project:~8.0 public_html --stability dev --no-interaction
-cd netmidas/public_html/web
-../vendor/bin/drush site-install --db-url=mysql://$DBUSER:$DBPASSWD@$DBHOST/$DBNAME
+composer global require drush/drush:dev-master
+phpenv rehash
+drush --verbose site-install --db-url=mysql://$DBUSER:@127.0.0.1/$DBNAME:$DBPASSWD --yes
+
+install_message "configure files required"
+cp sites/default/default.settings.php sites/default/settings.php
+cp sites/default/default.services.yml sites/default/services.yml
+chmod a+w sites/default/settings.php
+chmod a+w sites/default/services.yml
+chmod a+w sites/default
