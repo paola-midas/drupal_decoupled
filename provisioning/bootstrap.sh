@@ -71,3 +71,6 @@ cp sites/default/default.services.yml sites/default/services.yml
 chmod a+w sites/default/settings.php
 chmod a+w sites/default/services.yml
 chmod a+w sites/default
+
+install_message "basic_modules"
+composer require drupal/devel
