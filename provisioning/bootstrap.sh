@@ -26,6 +26,7 @@ sudo apt-get -y autoremove
 sudo apt-get -y install php7.0
 sudo apt-get -y install php7.0-mysql
 sudo apt-get -y install php7.0-mbstring
+sudo apt-get -y install php7.0-gd
 
 #drush dependencies
 sudo apt-get -y install php7.0-dom
@@ -54,16 +55,19 @@ curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
 
 install_message "install drush"
-sudo composer global require drush/drush:dev-master
-sudo ln -s $HOME/.composer/vendor/bin/drush /usr/local/bin/drush
-drush status
+wget https://github.com/drush-ops/drush/releases/download/8.1.13/drush.phar
+php drush.phar core-status
+chmod +x drush.phar
+sudo mv drush.phar /usr/local/bin/drush
+drush init -y
 
-install_message "install drupal from composer"
-cd /var/www/html/netmidas
-sudo composer create-project drupal-composer/drupal-project:~8.0 public_html --stability dev --no-interaction
-composer global require drush/drush:dev-master
-phpenv rehash
-drush --verbose site-install --db-url=mysql://$DBUSER:@127.0.0.1/$DBNAME:$DBPASSWD --yes
+install_message "install drupal from drush"
+/var/www/html/netmidas
+drush dl --verbose --drupal-project-rename=public_html
+cd public_html
+drush site-install --db-url=mysql://$DBUSER:$DBPASSWD@127.0.0.1/$DBNAME --yes --account-pass=admin --yes --verbose
+drush st
+drush pmu update -y
 
 install_message "configure files required"
 cp sites/default/default.settings.php sites/default/settings.php
@@ -73,4 +77,5 @@ chmod a+w sites/default/services.yml
 chmod a+w sites/default
 
 install_message "basic_modules"
-composer require drupal/devel
+drush dl admin_toolbar -y && drush en admin_toolbar_tools -y
+drush dl devel && drush en devel -y
