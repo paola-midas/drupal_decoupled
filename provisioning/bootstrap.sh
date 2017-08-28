@@ -63,9 +63,7 @@ sudo mv drush.phar /usr/local/bin/drush
 drush init -y
 
 install_message "install drupal from drush"
-/var/www/html/netmidas
-drush dl --verbose --drupal-project-rename=public_html
-cd public_html/web
+cd /var/www/html/netmidas/public_html
 drush site-install --db-url=mysql://$DBUSER:$DBPASSWD@127.0.0.1/$DBNAME --yes --account-pass=admin --yes --verbose
 drush pmu update -y
 
@@ -76,15 +74,18 @@ chmod a+w sites/default/settings.php
 chmod a+w sites/default/services.yml
 chmod a+w sites/default
 
+install_message "get packages info"
+composer config repositories.drupal composer https://packages.drupal.org/8
+
 install_message "admin modules"
-drush dl admin_toolbar -y && drush en admin_toolbar_tools -y
+composer require drupal/admin_toolbar
 
 install_message "devel modules"
-drush dl devel && drush en devel -y
+composer require drupal/devel
 
 install_message "REST first"
-drush dl libraries && drush en -y libraries
-drush dl rest && drush en -y rest
+composer require drupal/libraries
+composer require drupal/restui
 
 install_message "Creating the virtual host file"
 sudo ln -s -f /var/www/html/netmidas/provisioning/apache.conf /etc/apache2/sites-available/netmidas.conf
