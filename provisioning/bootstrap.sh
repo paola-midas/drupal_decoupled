@@ -74,6 +74,9 @@ chmod a+w sites/default/settings.php
 chmod a+w sites/default/services.yml
 chmod a+w sites/default
 
+install_message "htaccess"
+sudo cp /var/www/html/netmidas/provisioning/.htaccess /var/www/html/netmidas/public_html
+
 install_message "get packages info"
 composer config repositories.drupal composer https://packages.drupal.org/8
 
