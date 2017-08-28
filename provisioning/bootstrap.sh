@@ -53,6 +53,7 @@ mysql -u root -proot -e "GRANT ALL ON $DBNAME.* TO $DBUSER@$DBHOST IDENTIFIED BY
 install_message "install composer"
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
+composer create-project drupal-composer/drupal-project:8.x-dev public_html --stability dev --no-interaction
 
 install_message "install drush"
 wget https://github.com/drush-ops/drush/releases/download/8.1.13/drush.phar
@@ -64,9 +65,8 @@ drush init -y
 install_message "install drupal from drush"
 /var/www/html/netmidas
 drush dl --verbose --drupal-project-rename=public_html
-cd public_html
+cd public_html/web
 drush site-install --db-url=mysql://$DBUSER:$DBPASSWD@127.0.0.1/$DBNAME --yes --account-pass=admin --yes --verbose
-drush st
 drush pmu update -y
 
 install_message "configure files required"
@@ -76,6 +76,17 @@ chmod a+w sites/default/settings.php
 chmod a+w sites/default/services.yml
 chmod a+w sites/default
 
-install_message "basic_modules"
+install_message "admin modules"
 drush dl admin_toolbar -y && drush en admin_toolbar_tools -y
+
+install_message "devel modules"
 drush dl devel && drush en devel -y
+
+install_message "REST first"
+drush dl libraries && drush en -y libraries
+drush dl rest && drush en -y rest
+
+install_message "Creating the virtual host file"
+sudo ln -s -f /var/www/html/netmidas/provisioning/apache.conf /etc/apache2/sites-available/netmidas.conf
+sudo a2ensite netmidas.conf
+sudo service apache2 reload
