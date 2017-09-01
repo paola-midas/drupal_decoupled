@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "name": "drupal/drupal",
     "description": "Drupal is an open source content management platform powering millions of websites and applications.",
     "type": "project",
@@ -41,4 +42,6 @@
         "post-package-install": "Drupal\\Core\\Composer\\Composer::vendorTestCodeCleanup",
         "post-package-update": "Drupal\\Core\\Composer\\Composer::vendorTestCodeCleanup"
     }
+=======
+>>>>>>> c901289f11034500b61399c3c275fe11c9cbac2b
 }
