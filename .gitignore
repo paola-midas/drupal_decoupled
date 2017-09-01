@@ -2,6 +2,22 @@
 
 # Created by https://www.gitignore.io/api/drupal
 
+#composer generated files
+sites/*
+vendor/*
+core/*
+.csslintrc
+.eslintrc
+autoload.php
+composer.*
+.gitattributes
+.editorconfig
+.vagrant/*
+
+#custom theme
+themes/netmidas/*
+
+
 ### Drupal ###
 # Ignore configuration files that may contain sensitive information.
 sites/*/*settings*.php
